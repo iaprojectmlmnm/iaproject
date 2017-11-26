@@ -1,0 +1,15 @@
+Comment commenter une fonction :
+
+
+AVANT la fonction utiliser simplement : 
+
+
+	
+/**
+* commentaire
+*/
+
+
+Garder un commentaire le plus net et court possible	
+
+Le but est de générer automatiquement une documentation avec Doxygène, cette dernière est accessible depuis le fichier : index.html (ouvrir avec un navigateur)

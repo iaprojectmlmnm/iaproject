@@ -12,6 +12,8 @@ import java.util.Random;
  */
 public abstract class ANN {
 	
+
+	
 	/** output layer of the neural network */
 	List<Neuron> outLayer;
 	/**	input layer of the neural network, the InputNeurons are just artefacts to feed the data */
