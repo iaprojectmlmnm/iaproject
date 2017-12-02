@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 public class Neuron {
 	/** name of the neuron */
@@ -58,7 +59,10 @@ public class Neuron {
 	 * Initializes randomly the weights of the incoming edges 
 	 */
 	public void initWeights(){
-		// to be completed
+
+			for(Neuron n : parents)
+				w.put(n,generator.nextDouble()); //nextDouble renvoi une valeur entre 0 et 1
+
 	}
 	
 	
@@ -68,7 +72,13 @@ public class Neuron {
 	 * (there are no arguments as the neuron is not an inputNeuron)
 	 */
 	public void feed(){
-		// to be completed
+		for(Neuron n : parents) {
+			
+			out+=n.getCurrentOutput()*w.get(n); //Calcule la somme Xi * Wi pour transmettre à la fonction HeaviSide, fonction d'activation 
+		}
+		
+		h.activate(out);
+
 	}
 	
 	
