@@ -1,0 +1,3 @@
+Corriger l'erreur java.lang.OutOfMemoryError: Java heap space :  Run Configration -> Arguments -> VM Arguments -> -Xmx1024m
+
+Lancer le programme avec un argument(quelconque) : Provoque l'affichage graphique
