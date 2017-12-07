@@ -14,9 +14,7 @@ public class SingleLayer extends ANN{
 		generator = new Random();
 		this.trainingData = trainingData;
 		this.testingData = testingData;
-		
-		// to be completed
-	
+			
 	}
 	
 	public Output feed(Input in){ //Calcule la valeur de sortie du RESEAU de neuronne à partir des données d'entrées dans Input in
@@ -32,13 +30,29 @@ public class SingleLayer extends ANN{
 		h.activate(res);
 		Output out(res);
 		
-		return res;
+		return out;
 	}
 	
 	
-	public Map<Integer,Double> train(int nbIterations) {
-		// to be completed
-		return null;
+	public Map<Integer,Double> train(int nbIterations) { //Renvoi une map qui contient : NumItération -> Nombre erreur
+							     // Le nombre d'erreur est renvoyé par la méthode test déjà définie
+		
+		Map<Integer,Double> results = new Map<Integer,Double>();
+		
+		for(int i=0;i<nbIterations;i++) {
+		
+			for (Map.Entry<Input, Output> d : trainingData.entrySet()) { //Pour tous mes input de mes trainingData
+				
+				
+				results.put(i,test(trainingData,i));
+				//d.getKey();
+				//g.getValue();
+				
+			}
+			
+		}
+		
+		return results;
 	}
 	
 
