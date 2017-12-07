@@ -19,9 +19,20 @@ public class SingleLayer extends ANN{
 	
 	}
 	
-	public Output feed(Input in){
-		// to be completed
-		return null;
+	public Output feed(Input in){ //Calcule la valeur de sortie du RESEAU de neuronne à partir des données d'entrées dans Input in
+		
+		Double res=0;
+		
+		while (in.hasNext()) {
+		
+			res+=next();
+			
+		}
+		
+		h.activate(res);
+		Output out(res);
+		
+		return res;
 	}
 	
 	
