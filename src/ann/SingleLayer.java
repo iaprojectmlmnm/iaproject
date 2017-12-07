@@ -14,6 +14,44 @@ public class SingleLayer extends ANN{
 		generator = new Random();
 		this.trainingData = trainingData;
 		this.testingData = testingData;
+		List<InputNeuron> inLayer = new ArrayList<InputNeuron>(); //Neuronnes d'entrées de mon réseau
+		List<Neuron> outLayer =  new ArrayList<Neuron>();  		  //Neuronnes de sorties de mon réseau
+
+		
+		//remplir les neurones d'entrées
+		//remplir les neuronnes de sorties
+		//Connecter les 28*28 neurones d'entrées dans les 10 neurones de sorties
+		// 10 de sortie au 28*28 d'entrées
+	
+		for(int i=0;i<784;i++) {
+			
+			inLayer.add(new InputNeuron(255)); //255 pour normalize, car un pixel est situé entre 0 et 255
+		}
+		
+		
+		for (int i=0;i<10;i++) {
+			
+			outLayer.add(new Neuron(new Sigmoid()));
+		}
+
+		
+		//Connecter chaque neurones de sorties à tout les neurones d'entrées
+		//DEBUT
+		List<Neuron> tmp = null;
+		for(int i=0;i<inLayer.size();i++) 
+			tmp.add(inLayer.get(i));				
+		
+		for(int i=0;i<10;i++)
+			outLayer.get(i).parents=tmp;
+		//FIN
+		
+		//Connecter chaque neurones d'entrées aux neurones de sorties
+		//DEBUT
+		for(int i=0;i<784;i++) {
+			
+			inLayer.get(i).children=outLayer;
+		}		
+		//FIN
 			
 	}
 	
