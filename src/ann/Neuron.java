@@ -74,7 +74,7 @@ public class Neuron {
 	public void feed(){
 		for(Neuron n : parents) {
 			
-			out+=n.getCurrentOutput()*w.get(n); //Calcule la somme Xi * Wi pour transmettre à la fonction HeaviSide, fonction d'activation 
+			out+=n.getCurrentOutput()*w.get(n); //Calcule la somme Xi * Wi pour transmettre Ã  la fonction HeaviSide, fonction d'activation 
 		}
 		
 		h.activate(out);
@@ -88,7 +88,7 @@ public class Neuron {
 	 * @param val is the correct value.
 	 */
 	public void backPropagate(double target){
-		// to be completed
+		error=target-out;
 	}	
 	
 	
