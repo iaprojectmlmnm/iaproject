@@ -61,39 +61,54 @@ public class SingleLayer extends ANN{
 		double  []tab = new double[10];
 		int index=0;
 		while(iterator.hasNext()) {
-			inLayer.get(index).feed(iterator.next());
+			inLayer.get(index).feed(iterator.next()); //feed de la classe InputNeuron qui applique out= Val/Normalize
 			index++;
 		}
 		int i=0;
 		for (Neuron t : outLayer){
-			t.feed();
+			t.feed();								//Feed de Neuron (neuron de sortie) fait appel aux parents, qui ont été nourris précédement
 			tab[i]=t.getCurrentOutput();
 			i++;		
 			//System.out.println(t.getCurrentOutput());
 		}
 
-		h.activate(tab);
 		Output t = new Output(tab); 
 		
 		//System.out.println(t);
 		return t;
 	}
 	
+	
 	public Map<Integer,Double> train(int nbIterations) { //Renvoi une map qui contient : NumItération -> Nombre erreur
-							     // Le nombre d'erreur est renvoyé par la méthode test déjà définie
+							     						// Le nombre d'erreur est renvoyé par la méthode test() déjà définie
 		
-		Map<Integer,Double> results = new Map<Integer,Double>();
+		Map<Integer,Double> results = new HashMap<Integer,Double>();
 		
 		for(int i=0;i<nbIterations;i++) {
 		
 			for (Map.Entry<Input, Output> d : trainingData.entrySet()) { //Pour tous mes input de mes trainingData
 				
+				Output estimation = feed(d.getKey());
+				Output vraiValeure = d.getValue();
 				
-				results.put(i,test(trainingData,i));
-				//d.getKey();
-				//g.getValue();
+				if (! vraiValeure.equals(estimation) ) { //Les valeurs sont différentes, Mettre à jour les poids dans ma outLayer
+							
+							for(Neuron toUpdate : outLayer) {							 // Apprendre : consiste justement à mettre jour les poids
+				
+								//Wi=Wi+(target-out)*etat*out
+								Double ancienPoids = toUpdate.w.get(toUpdate);
+								Double nouveauPoids = ancienPoids + toUpdate.getCurrentOutput() * toUpdate.getError() ; 								
+								toUpdate.updateWeights(nouveauPoids);
+							}											
+				
+				 }
+				
 				
 			}
+			
+			results.put(i,test(trainingData,i));
+			//d.getKey();
+			//g.getValue();
 			
 		}
 		

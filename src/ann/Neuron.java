@@ -72,6 +72,7 @@ public class Neuron {
 	 * (there are no arguments as the neuron is not an inputNeuron)
 	 */
 	public void feed(){
+		
 		for(Neuron n : parents) {
 			
 			out+=n.getCurrentOutput()*w.get(n); //Calcule la somme Xi * Wi pour transmettre à la fonction HeaviSide, fonction d'activation 
@@ -106,6 +107,20 @@ public class Neuron {
 	 */
 	public String toString(){
 		return name + " out: " + out ;
+	}
+	
+	
+	/** Updates the weight of a neuron's parents *
+	 * 
+	 */
+	public boolean updateWeights(Double weight) {
+		
+		for (Neuron n : parents) {
+			
+			w.replace(n, weight);
+		}
+		
+		return true;
 	}
 	
 
