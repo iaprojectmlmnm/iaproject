@@ -57,20 +57,27 @@ public class SingleLayer extends ANN{
 	
 	public Output feed(Input in){ //Calcule la valeur de sortie du RESEAU de neuronne à partir des données d'entrées dans Input in
 		
-		Double res=0;
-		
-		while (in.hasNext()) {
-		
-			res+=next();
-			
+		Iterator<Double> iterator = in.iterator();
+		double  []tab = new double[10];
+		int index=0;
+		while(iterator.hasNext()) {
+			inLayer.get(index).feed(iterator.next());
+			index++;
 		}
+		int i=0;
+		for (Neuron t : outLayer){
+			t.feed();
+			tab[i]=t.getCurrentOutput();
+			i++;		
+			//System.out.println(t.getCurrentOutput());
+		}
+
+		h.activate(tab);
+		Output t = new Output(tab); 
 		
-		h.activate(res);
-		Output out(res);
-		
-		return out;
+		//System.out.println(t);
+		return t;
 	}
-	
 	
 	public Map<Integer,Double> train(int nbIterations) { //Renvoi une map qui contient : NumItération -> Nombre erreur
 							     // Le nombre d'erreur est renvoyé par la méthode test déjà définie
