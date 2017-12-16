@@ -28,6 +28,8 @@ public class Neuron {
 	protected double error;
 	/** random number generator */
 	public static Random generator;
+	protected double di;
+	
 	
 	/** 
 	 * returns the current value of the error for that neuron.
@@ -123,6 +125,19 @@ public class Neuron {
 		}
 		
 		return true;
+	}
+	
+	
+	public boolean UpdateWeightsHidden () {
+		
+		for (Entry<Neuron, Double> e : w.entrySet()){
+			  
+		    double v=e.getValue()+(eta*di*e.getKey().getCurrentOutput());
+		    e.setValue(v);
+		}
+		
+		return true;
+		
 	}
 	
 	

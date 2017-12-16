@@ -8,7 +8,7 @@ import java.util.Random;
 public class SingleLayer extends ANN{
 	
 	
-	
+	//Réseau de type feed-forward : on avance uniquement et pas de retour en arrière, inutile de connecter chaque neurones d'entrés à ceux de sortie
 
 	public SingleLayer(Map<Input, Output> trainingData, Map<Input, Output> testingData) {
 		generator = new Random();
