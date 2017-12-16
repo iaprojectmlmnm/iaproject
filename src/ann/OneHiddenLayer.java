@@ -142,31 +142,26 @@ public class OneHiddenLayer extends ANN{
 				}
 
 					
-					double dj;
-					for (Neuron n : hiddenLayer) {
+				double dj;
+				for (Neuron n : hiddenLayer) {
 						
-						dj = n.getCurrentOutput() * (1 - n.getCurrentOutput() ) * Somme (n);
-						n.di = dj;
-					}
+					dj = n.getCurrentOutput() * (1 - n.getCurrentOutput() ) * Somme (n);
+					n.di = dj;
+				}
 				
-
+				for (Neuron n : outLayer)
+					n.UpdateWeightsHidden();
 				
-				 }
+				for (Neuron n : hiddenLayer)
+					n.UpdateWeightsHidden();
 				
-			
-			for (Neuron n : outLayer)
-				n.UpdateWeightsHidden();
-			
-			for (Neuron n : hiddenLayer)
-				n.UpdateWeightsHidden();
-			
+			 }
+						
 			results.put(i,test(trainingData,i));
-
-			
+	
 		}
 		
 		return results;
-		
 		
 	}
 	
