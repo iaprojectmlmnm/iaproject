@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 
@@ -111,17 +112,21 @@ public class Neuron {
 	
 	
 	/** Updates the weight of a neuron's parents *
-	 * 
+	 * @author Nick
 	 */
-	public boolean updateWeights(Double weight) {
-		
-		for (Neuron n : parents) {
-			
-			w.replace(n, weight);
+	public boolean updateWeights() {
+
+		for (Entry<Neuron, Double> e : w.entrySet()){
+			  
+		    double v=e.getValue()+(eta*error*e.getKey().getCurrentOutput());
+		    e.setValue(v);
 		}
 		
 		return true;
 	}
+	
+	
+
 	
 
 }

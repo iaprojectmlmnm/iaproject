@@ -14,8 +14,8 @@ public class SingleLayer extends ANN{
 		generator = new Random();
 		this.trainingData = trainingData;
 		this.testingData = testingData;
-		List<InputNeuron> inLayer = new ArrayList<InputNeuron>(); //Neuronnes d'entrées de mon réseau
-		List<Neuron> outLayer =  new ArrayList<Neuron>();  		  //Neuronnes de sorties de mon réseau
+		inLayer = new ArrayList<InputNeuron>(); //Neuronnes d'entrées de mon réseau
+		outLayer =  new ArrayList<Neuron>();  		  //Neuronnes de sorties de mon réseau
 
 		
 		//Connecter les 28*28 neurones d'entrées dans les 10 neurones de sorties
@@ -32,15 +32,15 @@ public class SingleLayer extends ANN{
 		for (int i=0;i<10;i++) {
 			
 			outLayer.add(new Neuron(new Sigmoid()));
+
 		}
 
-		
 		//Connecter chaque neurone de sortie à tout les neurones d'entrées
 		//DEBUT
 		
 		for(Neuron n : outLayer) {
 
-			for(InputNeuron m : InLayer) {
+			for(InputNeuron m : inLayer) {
 			
 				n.addParent(m);
 			}
@@ -72,7 +72,7 @@ public class SingleLayer extends ANN{
 		}
 
 		Output t = new Output(tab); 
-		
+
 		//System.out.println(t);
 		return t;
 	}
@@ -81,6 +81,10 @@ public class SingleLayer extends ANN{
 	public Map<Integer,Double> train(int nbIterations) { //Renvoi une map qui contient : NumItération -> Nombre erreur
 							     						// Le nombre d'erreur est renvoyé par la méthode test() déjà définie
 		
+		for(Neuron n : outLayer){
+			n.initWeights();
+		}
+				
 		Map<Integer,Double> results = new HashMap<Integer,Double>();
 		
 		for(int i=0;i<nbIterations;i++) {
@@ -89,21 +93,23 @@ public class SingleLayer extends ANN{
 				
 				Output estimation = feed(d.getKey());
 				Output vraiValeure = d.getValue();
+				Iterator <Double> it = vraiValeure.iterator();
+				Iterator <Neuron> myNeurons = outLayer.iterator();
 				
-				if (! vraiValeure.equals(estimation) ) { //Les valeurs sont différentes, Mettre à jour les poids dans ma outLayer
 							
-							for(Neuron toUpdate : outLayer) {							 // Apprendre : consiste justement à mettre jour les poids
+					while (myNeurons.hasNext()) {
+						
+						Neuron n = myNeurons.next();
+						double VraiSortie = it.next();
+						n.backPropagate(VraiSortie); //effectue erreur = vraiSortie - maSortie <=> (Yk - Sk) sur dévloppez.net
+						n.updateWeights();
+					}
 				
-								//Wi=Wi+(target-out)*etat*out
-								Double ancienPoids = toUpdate.w.get(toUpdate);
-								Double nouveauPoids = ancienPoids + toUpdate.getCurrentOutput() * toUpdate.getError() ; 								
-								toUpdate.updateWeights(nouveauPoids);
-							}											
+
 				
 				 }
 				
-				
-			}
+			
 			
 			results.put(i,test(trainingData,i));
 			//d.getKey();
@@ -112,6 +118,8 @@ public class SingleLayer extends ANN{
 		}
 		
 		return results;
+		
+		
 	}
 	
 

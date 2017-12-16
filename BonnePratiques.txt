@@ -1,7 +1,7 @@
 Comment commenter une fonction :
 
 
-AVANT la fonction utiliser simplement : 
+AVANT la fonction utiliser simplement : (comme le prof fait)
 
 
 	
