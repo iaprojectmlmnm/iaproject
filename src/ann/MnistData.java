@@ -108,6 +108,7 @@ public class MnistData extends Application {
 	public static void main(String[] args) {
 		if (args.length==0){
 			try {
+				
 				Map<Input,Output> data = readData("train-images-idx3-ubyte", "train-labels-idx1-ubyte");
 				Map<Input,Output> testSet = readData("t10k-images-idx3-ubyte", "t10k-labels-idx1-ubyte"); ;
 				SingleLayer ann = new SingleLayer(data,testSet);

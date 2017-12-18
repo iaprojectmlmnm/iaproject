@@ -68,34 +68,29 @@ public class SingleLayer extends ANN{
 			t.feed();								//Feed de Neuron (neuron de sortie) fait appel aux parents, qui ont été nourris précédement
 			tab[i]=t.getCurrentOutput();
 			i++;		
-			//System.out.println(t.getCurrentOutput());
 		}
 
 		Output t = new Output(tab); 
-
-		//System.out.println(t);
 		return t;
 	}
 	
 	
 	public Map<Integer,Double> train(int nbIterations) { //Renvoi une map qui contient : NumItération -> Nombre erreur
 							     						// Le nombre d'erreur est renvoyé par la méthode test() déjà définie
-		
+		Map<Integer,Double> results = new HashMap<Integer,Double>();
+
 		for(Neuron n : outLayer){
 			n.initWeights();
 		}
 				
-		Map<Integer,Double> results = new HashMap<Integer,Double>();
 		
 		for(int i=0;i<nbIterations;i++) {
 		
 			for (Map.Entry<Input, Output> d : trainingData.entrySet()) { //Pour tous mes input de mes trainingData
 				
-				Output estimation = feed(d.getKey());
-				Output vraiValeure = d.getValue();
-				Iterator <Double> it = vraiValeure.iterator();
+				feed(d.getKey());
+				Iterator <Double> it = d.getValue().iterator();
 				Iterator <Neuron> myNeurons = outLayer.iterator();
-				
 							
 					while (myNeurons.hasNext()) {
 						
@@ -103,24 +98,25 @@ public class SingleLayer extends ANN{
 						double VraiSortie = it.next();
 						n.backPropagate(VraiSortie); //effectue erreur = vraiSortie - maSortie <=> (Yk - Sk) sur dévloppez.net
 						n.updateWeights();
-					}
-				
 
-				
+					}
+					
+
+								
 				 }
-				
-			
-			
-			results.put(i,test(trainingData,i));
+					
+
+			results.put(i,test(testingData,i));
 			//d.getKey();
 			//g.getValue();
 			
 		}
 		
-		return results;
 		
-		
+		return results;		
 	}
+	
+	
 	
 
 }

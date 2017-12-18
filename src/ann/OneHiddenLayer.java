@@ -157,7 +157,7 @@ public class OneHiddenLayer extends ANN{
 				
 			 }
 						
-			results.put(i,test(trainingData,i));
+			results.put(i,test(testingData,i));
 	
 		}
 		

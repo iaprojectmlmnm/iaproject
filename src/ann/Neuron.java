@@ -28,6 +28,7 @@ public class Neuron {
 	protected double error;
 	/** random number generator */
 	public static Random generator;
+	/** added by us to be used in the HiddenLayer */
 	protected double di;
 	
 	
@@ -76,14 +77,14 @@ public class Neuron {
 	 */
 	public void feed(){
 		
-		for(Neuron n : parents) {
-			
-			out+=n.getCurrentOutput()*w.get(n); //Calcule la somme Xi * Wi pour transmettre à la fonction HeaviSide, fonction d'activation 
+		double res=0;
+		for (Neuron n : parents) {
+			res+=(n.getCurrentOutput()*w.get(n));	
 		}
 		
-		h.activate(out);
+		out=h.activate(res);
 
-	}
+}
 	
 	
 	
@@ -92,9 +93,8 @@ public class Neuron {
 	 * @param val is the correct value.
 	 */
 	public void backPropagate(double target){
-		error=target-out;
-	}	
-	
+		error=target-out;	
+	}
 	
 	/**
 	 * returns the current ouput (it should be called once the output has been computed, 
@@ -127,6 +127,9 @@ public class Neuron {
 		return true;
 	}
 	
+	/** Same as before, but this is used in the HiddenLayer *
+	 * @author Nick
+	 */
 	
 	public boolean UpdateWeightsHidden () {
 		
