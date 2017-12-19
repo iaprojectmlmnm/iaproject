@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Map.Entry;
 
+@SuppressWarnings("unused")
 public class OneHiddenLayer extends ANN{
 
 	List<Neuron> hiddenLayer;
@@ -73,6 +74,15 @@ public class OneHiddenLayer extends ANN{
 		}
 		//FIN
 
+		
+		for(Neuron n : hiddenLayer) {
+
+			for(Neuron m : outLayer) {
+			
+				n.addChild(m);
+			}
+			
+		}
 
 	}
 	
@@ -88,26 +98,19 @@ public class OneHiddenLayer extends ANN{
 		}
 		
 		
-		int j=0;
 		for (Neuron t : hiddenLayer){
-			t.feed();								//Feed de Neuron (neuron de sortie) fait appel aux parents, qui ont été nourris précédement
-			tab[j]=t.getCurrentOutput();
-			j++;		
-			//System.out.println(t.getCurrentOutput());
+			t.feed();								
 		}
 		
 		
 		int i=0;
 		for (Neuron t : outLayer){
-			t.feed();								//Feed de Neuron (neuron de sortie) fait appel aux parents, qui ont été nourris précédement
+			t.feed();								
 			tab[i]=t.getCurrentOutput();
 			i++;		
-			//System.out.println(t.getCurrentOutput());
 		}
 
 		Output t = new Output(tab); 
-
-		//System.out.println(t);
 		return t;
 	}
 	
@@ -130,33 +133,27 @@ public class OneHiddenLayer extends ANN{
 			for (Map.Entry<Input, Output> d : trainingData.entrySet()) { //Pour tous mes input de mes trainingData
 				
 				feed(d.getKey());
-				Output vraiValeure = d.getValue();
-				Iterator <Double> it = vraiValeure.iterator();
-				
-				double di=0.;
+				Iterator <Double> it = d.getValue().iterator();		
 							
 				for (Neuron n : outLayer) {
 					
-					//n.backPropagate(it.next());
-					di = n.getCurrentOutput() * (1 - n.getCurrentOutput() ) * (it.next() - n.getCurrentOutput()) ;
-					n.di = di;
+					n.error = n.getCurrentOutput() * (1.0 - n.getCurrentOutput() ) * (it.next() - n.getCurrentOutput()) ;
 				}
 
 					
-				double dj;
 				for (Neuron n : hiddenLayer) {
 						
-					dj = (n.getCurrentOutput() * (1 - n.getCurrentOutput())) * Somme (n);
-					n.di = dj;
+					n.error = (n.getCurrentOutput() * (1.0 - n.getCurrentOutput())) * n.Somme ();
 				}
 				
 				
-				for (Neuron n : hiddenLayer)
-					n.UpdateWeightsHidden();
+				for (Neuron n : outLayer) 
+					n.updateWeights();
 				
-				for (Neuron n : outLayer)
-					n.UpdateWeightsHidden();
-				
+				for (Neuron n : hiddenLayer) 
+					n.updateWeights();
+
+
 
 
 			 }
@@ -169,23 +166,4 @@ public class OneHiddenLayer extends ANN{
 		
 	}
 	
-	
-	
-	public double Somme (Neuron pere) { //Tous les neurones qui ont pour entrée la sortie du neuron n
-		
-		double res=0.;
-		
-		for (Neuron n : outLayer) {
-			
-			//System.out.println("Poids du pere : "+n.w.get(pere)+ " Erreur du pere "+n.error);
-			res+= n.w.get(pere) * n.error;
-		}
-		
-		//System.out.println("L'erreur de ce neurone caché "+res);
-		pere.error=res;
-		//pere.feed();
-		return res;
-	}
-	
-
 }

@@ -10,6 +10,7 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 
+@SuppressWarnings("unused")
 public class Neuron {
 	/** name of the neuron */
 	String name;	
@@ -29,8 +30,7 @@ public class Neuron {
 	protected double error;
 	/** random number generator */
 	public static Random generator;
-	/** added by us to be used in the HiddenLayer */
-	protected double di;
+
 	
 	
 	/** 
@@ -64,7 +64,6 @@ public class Neuron {
 	 * Initializes randomly the weights of the incoming edges 
 	 */
 	public void initWeights(){
-
 			for(Neuron n : parents)
 				w.put(n,ThreadLocalRandom.current().nextDouble(-0.5, 0.5)); //nextDouble renvoi une valeur entre 0 et 1
 
@@ -128,22 +127,17 @@ public class Neuron {
 		return true;
 	}
 	
-	/** Same as updateWeights(), but this is used in the HiddenLayer *
-	 * @author Nick
-	 */
 	
-	public boolean UpdateWeightsHidden () {
+	public double Somme () { //Tous les neurones qui ont pour entrée la sortie du neuron n
 		
-		for (Entry<Neuron, Double> e : w.entrySet()){
-			  
-			//System.out.println("Ancien poids : "+e.getValue());
-		    double v=e.getValue()+(eta*di*e.getKey().getCurrentOutput());
-			//System.out.println("new poids : "+v);
-		    e.setValue(v);
+		double res=0.;
+
+		for (Neuron n : children) {
+			
+			res+=  n.w.get(this) * n.error;
 		}
 		
-		return true;
-		
+		return res;
 	}
 	
 	

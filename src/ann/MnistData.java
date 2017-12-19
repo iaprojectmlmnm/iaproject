@@ -37,6 +37,7 @@ import javafx.stage.Stage;
  * @author stephane
  *
  */
+@SuppressWarnings("unused")
 public class MnistData extends Application {
 
 	/**
@@ -185,7 +186,8 @@ public class MnistData extends Application {
         ObservableList<XYChart.Series<Integer, Double>> answer = FXCollections.observableArrayList();
         NumberAxis xAxis = new NumberAxis();
 		NumberAxis yAxis = new NumberAxis();
-	    LineChart<Integer,Double> lineChart = new LineChart(xAxis, yAxis);
+	    @SuppressWarnings({ "rawtypes", "unchecked" })
+		LineChart<Integer,Double> lineChart = new LineChart(xAxis, yAxis);
 	    lineChart.setData(answer);
 	    lineChart.setTitle("Evolution of the percentage of mistakes");
 	    root.getChildren().add(lineChart);
