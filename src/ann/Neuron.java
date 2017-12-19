@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Neuron {
 	/** name of the neuron */
@@ -65,7 +66,7 @@ public class Neuron {
 	public void initWeights(){
 
 			for(Neuron n : parents)
-				w.put(n,generator.nextDouble()); //nextDouble renvoi une valeur entre 0 et 1
+				w.put(n,ThreadLocalRandom.current().nextDouble(-0.5, 0.5)); //nextDouble renvoi une valeur entre 0 et 1
 
 	}
 	
@@ -127,7 +128,7 @@ public class Neuron {
 		return true;
 	}
 	
-	/** Same as before, but this is used in the HiddenLayer *
+	/** Same as updateWeights(), but this is used in the HiddenLayer *
 	 * @author Nick
 	 */
 	
@@ -135,7 +136,9 @@ public class Neuron {
 		
 		for (Entry<Neuron, Double> e : w.entrySet()){
 			  
+			//System.out.println("Ancien poids : "+e.getValue());
 		    double v=e.getValue()+(eta*di*e.getKey().getCurrentOutput());
+			//System.out.println("new poids : "+v);
 		    e.setValue(v);
 		}
 		

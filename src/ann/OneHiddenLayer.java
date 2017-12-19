@@ -137,6 +137,7 @@ public class OneHiddenLayer extends ANN{
 							
 				for (Neuron n : outLayer) {
 					
+					//n.backPropagate(it.next());
 					di = n.getCurrentOutput() * (1 - n.getCurrentOutput() ) * (it.next() - n.getCurrentOutput()) ;
 					n.di = di;
 				}
@@ -145,16 +146,19 @@ public class OneHiddenLayer extends ANN{
 				double dj;
 				for (Neuron n : hiddenLayer) {
 						
-					dj = n.getCurrentOutput() * (1 - n.getCurrentOutput() ) * Somme (n);
+					dj = (n.getCurrentOutput() * (1 - n.getCurrentOutput())) * Somme (n);
 					n.di = dj;
 				}
 				
-				for (Neuron n : outLayer)
-					n.UpdateWeightsHidden();
 				
 				for (Neuron n : hiddenLayer)
 					n.UpdateWeightsHidden();
 				
+				for (Neuron n : outLayer)
+					n.UpdateWeightsHidden();
+				
+
+
 			 }
 						
 			results.put(i,test(testingData,i));
@@ -173,11 +177,13 @@ public class OneHiddenLayer extends ANN{
 		
 		for (Neuron n : outLayer) {
 			
+			//System.out.println("Poids du pere : "+n.w.get(pere)+ " Erreur du pere "+n.error);
 			res+= n.w.get(pere) * n.error;
 		}
 		
+		//System.out.println("L'erreur de ce neurone caché "+res);
 		pere.error=res;
-		
+		//pere.feed();
 		return res;
 	}
 	
