@@ -1,0 +1,75 @@
+\hypertarget{classann_1_1_a_n_n}{}\section{ann.\+A\+NN Class Reference}
+\label{classann_1_1_a_n_n}\index{ann.\+A\+NN@{ann.\+A\+NN}}
+Inheritance diagram for ann.\+A\+NN\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classann_1_1_a_n_n}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+abstract Map$<$ Integer, Double $>$ \hyperlink{classann_1_1_a_n_n_a9e4c633b9b365c89245bbb441c86d71c}{train} (int num\+Iterations)
+\item 
+abstract \hyperlink{classann_1_1_output}{Output} \hyperlink{classann_1_1_a_n_n_adc3da5c04b719a2d7c93ef5af2e898b7}{feed} (\hyperlink{classann_1_1_input}{Input} in)
+\item 
+double \hyperlink{classann_1_1_a_n_n_aa7ab72312b84e639aa84b6fbee5c9df1}{test} (Map$<$ \hyperlink{classann_1_1_input}{Input}, \hyperlink{classann_1_1_output}{Output} $>$ data, int it)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Abstract class for an artificial neural network \begin{DoxyAuthor}{Author}
+stephane 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classann_1_1_a_n_n_adc3da5c04b719a2d7c93ef5af2e898b7}\label{classann_1_1_a_n_n_adc3da5c04b719a2d7c93ef5af2e898b7}} 
+\index{ann\+::\+A\+NN@{ann\+::\+A\+NN}!feed@{feed}}
+\index{feed@{feed}!ann\+::\+A\+NN@{ann\+::\+A\+NN}}
+\subsubsection{\texorpdfstring{feed()}{feed()}}
+{\footnotesize\ttfamily abstract \hyperlink{classann_1_1_output}{Output} ann.\+A\+N\+N.\+feed (\begin{DoxyParamCaption}\item[{\hyperlink{classann_1_1_input}{Input}}]{in }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [abstract]}}
+
+Methods that computes the output of the neural network given the input 
+\begin{DoxyParams}{Parameters}
+{\em in} & input data of the neural network \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the output of the neural network (it is stored in an object output that contains a vector of the values of each neurons in the output layer 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classann_1_1_a_n_n_aa7ab72312b84e639aa84b6fbee5c9df1}\label{classann_1_1_a_n_n_aa7ab72312b84e639aa84b6fbee5c9df1}} 
+\index{ann\+::\+A\+NN@{ann\+::\+A\+NN}!test@{test}}
+\index{test@{test}!ann\+::\+A\+NN@{ann\+::\+A\+NN}}
+\subsubsection{\texorpdfstring{test()}{test()}}
+{\footnotesize\ttfamily double ann.\+A\+N\+N.\+test (\begin{DoxyParamCaption}\item[{Map$<$ \hyperlink{classann_1_1_input}{Input}, \hyperlink{classann_1_1_output}{Output} $>$}]{data,  }\item[{int}]{it }\end{DoxyParamCaption})}
+
+Methods that computes the number of mistakes of the neural network on the testing data\+: for each example in the training data, the method compares the output of the network with the label of the data and counts the number of mistakes. 
+\begin{DoxyParams}{Parameters}
+{\em data} & map that contains a set of data (usually used with the testing data) \\
+\hline
+{\em it} & the number of iterations when this test is called (it is only used to print the result on the console) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the number of mistakes made on the data set. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classann_1_1_a_n_n_a9e4c633b9b365c89245bbb441c86d71c}\label{classann_1_1_a_n_n_a9e4c633b9b365c89245bbb441c86d71c}} 
+\index{ann\+::\+A\+NN@{ann\+::\+A\+NN}!train@{train}}
+\index{train@{train}!ann\+::\+A\+NN@{ann\+::\+A\+NN}}
+\subsubsection{\texorpdfstring{train()}{train()}}
+{\footnotesize\ttfamily abstract Map$<$Integer,Double$>$ ann.\+A\+N\+N.\+train (\begin{DoxyParamCaption}\item[{int}]{num\+Iterations }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [abstract]}}
+
+method that trains the neural network for a certain number of iterations (no convergence test is used). 
+\begin{DoxyParams}{Parameters}
+{\em num\+Iterations} & is the number of iterations, i.\+e. the number of times the algorithm will update using the entire training data \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns the dynamics of the error\+: it contains a map that associate one iteration number and the number of mistakes done on the testing set. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Nick/\+Desktop/\+M1 M\+I\+A\+G\+E/\+Iam\+The\+One/\+Intelligence-\/\+Artificielle/\+Projet/iaproject/src/ann/A\+N\+N.\+java\end{DoxyCompactItemize}
