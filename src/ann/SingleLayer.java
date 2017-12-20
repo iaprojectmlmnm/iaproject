@@ -15,58 +15,36 @@ public class SingleLayer extends ANN{
 		generator = new Random();
 		this.trainingData = trainingData;
 		this.testingData = testingData;
-		inLayer = new ArrayList<InputNeuron>(); //Neuronnes d'entrées de mon réseau
-		outLayer =  new ArrayList<Neuron>();  		  //Neuronnes de sorties de mon réseau
+		inLayer = new ArrayList<InputNeuron>(); 
+		outLayer =  new ArrayList<Neuron>();  		  
 
-		
-		//Connecter les 28*28 neurones d'entrées dans les 10 neurones de sorties
-		
-		//remplir les neurones d'entrées
 
-		for(int i=0;i<(28*28);i++) {
-			
+		for(int i=0;i<(28*28);i++) 			
 			inLayer.add(new InputNeuron(255)); //255 pour normalize, car un pixel est situé entre 0 et 255
-		}
 		
-		//remplir les neuronnes de sorties
-		
-		for (int i=0;i<10;i++) {
-			
+		for (int i=0;i<10;i++) 		
 			outLayer.add(new Neuron(new Sigmoid()));
 
-		}
-
-		//Connecter chaque neurone de sortie à tout les neurones d'entrées
-		//DEBUT
-		
 		for(Neuron n : outLayer) {
-
-			for(InputNeuron m : inLayer) {
-			
-				n.addParent(m);
-			}
-			
+			for(InputNeuron m : inLayer) 		
+				n.addParent(m);	
 		}
 		
-		//FIN
-		
-		//Inutile de connecter chaque neurone d'entrée aux neurones de sorties
-
 			
 	}
 	
-	public Output feed(Input in){ //Calcule la valeur de sortie du RESEAU de neuronne à partir des données d'entrées dans Input in
+	public Output feed(Input in){ 
 		
 		Iterator<Double> iterator = in.iterator();
 		double  []tab = new double[10];
 		int index=0;
 		while(iterator.hasNext()) {
-			inLayer.get(index).feed(iterator.next()); //feed de la classe InputNeuron qui applique out= Val/Normalize
+			inLayer.get(index).feed(iterator.next()); 
 			index++;
 		}
 		int i=0;
 		for (Neuron t : outLayer){
-			t.feed();								//Feed de Neuron (neuron de sortie) fait appel aux parents, qui ont été nourris précédement
+			t.feed();							
 			tab[i]=t.getCurrentOutput();
 			i++;		
 		}
@@ -76,18 +54,18 @@ public class SingleLayer extends ANN{
 	}
 	
 	
-	public Map<Integer,Double> train(int nbIterations) { //Renvoi une map qui contient : NumItération -> Nombre erreur
-							     						// Le nombre d'erreur est renvoyé par la méthode test() déjà définie
+	public Map<Integer,Double> train(int nbIterations) { 
+		
+		long startTime = System.nanoTime();    
+
 		Map<Integer,Double> results = new HashMap<Integer,Double>();
 
-		for(Neuron n : outLayer){
+		for(Neuron n : outLayer)
 			n.initWeights();
-		}
-				
-		
+	
 		for(int i=0;i<nbIterations;i++) {
 		
-			for (Map.Entry<Input, Output> d : trainingData.entrySet()) { //Pour tous mes input de mes trainingData
+			for (Map.Entry<Input, Output> d : trainingData.entrySet()) { 
 				
 				feed(d.getKey());
 				Iterator <Double> it = d.getValue().iterator();
@@ -96,24 +74,19 @@ public class SingleLayer extends ANN{
 					while (myNeurons.hasNext()) {
 						
 						Neuron n = myNeurons.next();
-						double VraiSortie = it.next();
-						n.backPropagate(VraiSortie); //effectue erreur = vraiSortie - maSortie <=> (Yk - Sk) sur dévloppez.net
+						double trueValue = it.next();
+						n.backPropagate(trueValue); 
 						n.updateWeights();
-
-					}
-					
-
+					}					
 								
-				 }
-					
+				 }					
 
-			results.put(i,test(testingData,i));
-			//d.getKey();
-			//g.getValue();
-			
+			results.put(i,test(testingData,i));					
 		}
 		
-		
+		//Converting nanoseconds to seconds
+		double estimatedTime = (System.nanoTime() - startTime) / 1000000000.0;
+		System.out.println("The training of your single layer lasted for "+estimatedTime+" seconds");
 		return results;		
 	}
 	

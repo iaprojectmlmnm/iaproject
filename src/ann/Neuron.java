@@ -65,7 +65,7 @@ public class Neuron {
 	 */
 	public void initWeights(){
 			for(Neuron n : parents)
-				w.put(n,ThreadLocalRandom.current().nextDouble(-0.5, 0.5)); //nextDouble renvoi une valeur entre 0 et 1
+				w.put(n,ThreadLocalRandom.current().nextDouble(-0.5, 0.5)); //used instead Random(), provides better results since 1.7
 
 	}
 	
@@ -78,9 +78,9 @@ public class Neuron {
 	public void feed(){
 		
 		double res=0;
-		for (Neuron n : parents) {
+		for (Neuron n : parents)
 			res+=(n.getCurrentOutput()*w.get(n));	
-		}
+
 		
 		out=h.activate(res);
 
@@ -114,28 +114,28 @@ public class Neuron {
 	
 	
 	/** Updates the weight of a neuron's parents *
-	 * @author Nick
+	 * 
 	 */
 	public boolean updateWeights() {
-
-		for (Entry<Neuron, Double> e : w.entrySet()){
-			  
+		for (Entry<Neuron, Double> e : w.entrySet()){			  
 		    double v=e.getValue()+(eta*error*e.getKey().getCurrentOutput());
 		    e.setValue(v);
-		}
+		}		
 		
 		return true;
 	}
 	
+	/** Computes the error of a neuron in the HiddenLayer, based on the weight and the errors of the neurons in the outLayer (his children)
+	 * @return the error
+	 */
 	
-	public double Somme () { //Tous les neurones qui ont pour entrée la sortie du neuron n
+	public double Somme () { 
 		
 		double res=0.;
 
-		for (Neuron n : children) {
-			
+		for (Neuron n : children) 		
 			res+=  n.w.get(this) * n.error;
-		}
+
 		
 		return res;
 	}
